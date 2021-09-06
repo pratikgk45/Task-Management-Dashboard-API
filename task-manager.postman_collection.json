@@ -1,0 +1,709 @@
+{
+	"info": {
+		"_postman_id": "02ab9c0a-523e-4b34-ba46-06a2c829d1b1",
+		"name": "task-manager",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "User",
+			"item": [
+				{
+					"name": "Auth",
+					"item": [
+						{
+							"name": "Create User / Sign Up",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"name\" : \"Chuzzi\",\n    \"email\" : \"chuzzi@gmail.com\",\n    \"password\" : \"Samtpobaw@21\",\n    \"age\" : 20\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseurl}}/users",
+									"host": [
+										"{{baseurl}}"
+									],
+									"path": [
+										"users"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Login",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"if (pm.response.code === 200) {",
+											"    pm.environment.set('authToken', pm.response.json().token);",
+											"}"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"email\" : \"steve@gmail.com\",\n    \"password\" : \"Samtpobaw@21\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseurl}}/login",
+									"host": [
+										"{{baseurl}}"
+									],
+									"path": [
+										"login"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Logout",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseurl}}/logout",
+									"host": [
+										"{{baseurl}}"
+									],
+									"path": [
+										"logout"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Logout All",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseurl}}/logoutAll",
+									"host": [
+										"{{baseurl}}"
+									],
+									"path": [
+										"logoutAll"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Me",
+					"item": [
+						{
+							"name": "Get Me",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseurl}}/me",
+									"host": [
+										"{{baseurl}}"
+									],
+									"path": [
+										"me"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Update Me",
+							"request": {
+								"method": "PATCH",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"name\": \"Scot\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseurl}}/me",
+									"host": [
+										"{{baseurl}}"
+									],
+									"path": [
+										"me"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Upload My Avatar",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "formdata",
+									"formdata": [
+										{
+											"key": "avatar",
+											"type": "file",
+											"src": "/Users/pratikgk45/Documents/Pictures/pikachu.png"
+										}
+									]
+								},
+								"url": {
+									"raw": "{{baseurl}}/me/avatar",
+									"host": [
+										"{{baseurl}}"
+									],
+									"path": [
+										"me",
+										"avatar"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Delete My Avatar",
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"body": {
+									"mode": "formdata",
+									"formdata": [
+										{
+											"key": "avatar",
+											"type": "file",
+											"src": "/Users/pratikgk45/Documents/Pictures/pikachu.png"
+										}
+									]
+								},
+								"url": {
+									"raw": "{{baseurl}}/me/avatar",
+									"host": [
+										"{{baseurl}}"
+									],
+									"path": [
+										"me",
+										"avatar"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Activate",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"url": {
+									"raw": "{{baseurl}}/activate",
+									"host": [
+										"{{baseurl}}"
+									],
+									"path": [
+										"activate"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Deactivate",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"url": {
+									"raw": "{{baseurl}}/deactivate",
+									"host": [
+										"{{baseurl}}"
+									],
+									"path": [
+										"deactivate"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Get Users",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseurl}}/users?active=true&search=z",
+							"host": [
+								"{{baseurl}}"
+							],
+							"path": [
+								"users"
+							],
+							"query": [
+								{
+									"key": "active",
+									"value": "true"
+								},
+								{
+									"key": "search",
+									"value": "z"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "User Avatar",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseurl}}/users/aaaaaac/avatar",
+							"host": [
+								"{{baseurl}}"
+							],
+							"path": [
+								"users",
+								"aaaaaac",
+								"avatar"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Project",
+			"item": [
+				{
+					"name": "Create Project",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"_id\": \"eva\",\n    \"name\": \"Eva\",\n    \"description\": \"Eva : Virtual Assistant\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseurl}}/projects",
+							"host": [
+								"{{baseurl}}"
+							],
+							"path": [
+								"projects"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Projects",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseurl}}/projects",
+							"host": [
+								"{{baseurl}}"
+							],
+							"path": [
+								"projects"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Project",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseurl}}/projects/eva",
+							"host": [
+								"{{baseurl}}"
+							],
+							"path": [
+								"projects",
+								"eva"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Project",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"description\": \"Aquarius Project\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseurl}}/projects/aquarius",
+							"host": [
+								"{{baseurl}}"
+							],
+							"path": [
+								"projects",
+								"aquarius"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Add / Remove User",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"action\": \"add\",\n    \"userid\": \"aaaaaaa\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseurl}}/projects/surpas",
+							"host": [
+								"{{baseurl}}"
+							],
+							"path": [
+								"projects",
+								"surpas"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Access Request",
+			"item": [
+				{
+					"name": "Create Access Request",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"project\": \"eva\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseurl}}/access-requests",
+							"host": [
+								"{{baseurl}}"
+							],
+							"path": [
+								"access-requests"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Received Access Requests",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseurl}}/received-access-requests",
+							"host": [
+								"{{baseurl}}"
+							],
+							"path": [
+								"received-access-requests"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "My Access Requests",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseurl}}/my-access-requests",
+							"host": [
+								"{{baseurl}}"
+							],
+							"path": [
+								"my-access-requests"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Access Request",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseurl}}/access-requests/6135b0e402d47d39457cb6a4",
+							"host": [
+								"{{baseurl}}"
+							],
+							"path": [
+								"access-requests",
+								"6135b0e402d47d39457cb6a4"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Access Request",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"approved\": true\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseurl}}/access-requests/6135c7f175482d3ecb2ab663",
+							"host": [
+								"{{baseurl}}"
+							],
+							"path": [
+								"access-requests",
+								"6135c7f175482d3ecb2ab663"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Add a Comment to an Access Request",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"comment\": \"This is test comment !\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseurl}}/access-requests/6135b0e402d47d39457cb6a4/comment",
+							"host": [
+								"{{baseurl}}"
+							],
+							"path": [
+								"access-requests",
+								"6135b0e402d47d39457cb6a4",
+								"comment"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Task",
+			"item": [
+				{
+					"name": "Create Task",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"title\" : \"First Subtask\",\n    \"description\" : \"first task\",\n    \"assignee\" : \"aaaaaaa\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseurl}}/projects/surpas/tasks",
+							"host": [
+								"{{baseurl}}"
+							],
+							"path": [
+								"projects",
+								"surpas",
+								"tasks"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Tasks",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseurl}}/projects/surpas/tasks",
+							"host": [
+								"{{baseurl}}"
+							],
+							"path": [
+								"projects",
+								"surpas",
+								"tasks"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Task",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseurl}}/projects/surpas/tasks/6135df1794e39e45b491e734",
+							"host": [
+								"{{baseurl}}"
+							],
+							"path": [
+								"projects",
+								"surpas",
+								"tasks",
+								"6135df1794e39e45b491e734"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Task",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"title\": \"Edited Task Title\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseurl}}/projects/surpas/tasks/6135df1794e39e45b491e734",
+							"host": [
+								"{{baseurl}}"
+							],
+							"path": [
+								"projects",
+								"surpas",
+								"tasks",
+								"6135df1794e39e45b491e734"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"auth": {
+		"type": "bearer",
+		"bearer": [
+			{
+				"key": "token",
+				"value": "{{authToken}}",
+				"type": "string"
+			}
+		]
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	]
+}
