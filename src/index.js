@@ -1,4 +1,5 @@
 const express = require('express');
+const cors = require('cors');
 require('./db/mongoose');
 const userRouter = require('./routers/users');
 const taskRouter = require('./routers/tasks');
@@ -7,6 +8,10 @@ const accessRequestRouter = require('./routers/accessRequests');
 
 const app = express();
 const port = process.env.PORT;
+
+app.use(cors({
+    origin: ['http://localhost:8000']
+}));
 
 app.use(express.json());
 app.use(userRouter);

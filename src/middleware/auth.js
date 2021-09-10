@@ -11,14 +11,17 @@ const auth = async (req, res, next) => {
         });
 
         if (!user) {
-            throw new Error('Authentication Failed');
+            return res.status(404).send();
         }
 
         req.user = user;
         req.token = token;
         next();
     } catch (e) {
-        res.status(401).send({ error : 'Authenticate first.'});
+        if (e instanceof jwt.TokenExpiredError) {
+            return res.status(401).send({ message : 'Session Expired, Please Login Again !'});
+        }
+        res.status(401).send({ message : 'Authenticate first.'});
     }
 };
 
