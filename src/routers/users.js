@@ -45,7 +45,10 @@ router.post('/logoutAll', auth, async (req, res) => {
 
 // Create User
 router.post('/users', async (req, res) => {
-    const user = new User(req.body);
+    const user = new User({
+        ...req.body,
+        admin: false // no one is allowed to create admin user
+    });
 
     try {
         user._id = userIdGenerator(await User.countDocuments({}));
@@ -101,6 +104,7 @@ router.get('/me', auth, async (req, res) => {
 router.patch('/me', auth, async (req, res) => {
     try {
         Object.keys(req.body).forEach(update => req.user[update] = req.body[update]);
+        req.user.admin = false; // no update over admin is allowed
         await req.user.save();
 
         res.send(req.user);

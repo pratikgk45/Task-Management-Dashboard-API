@@ -8,6 +8,10 @@ const schema = {
     _id: {
         type: String
     },
+    admin: {
+        type: Boolean,
+        default: false,
+    },
     name: {
         type: String,
         required: true,
