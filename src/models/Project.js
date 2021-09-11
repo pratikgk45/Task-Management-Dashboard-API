@@ -20,11 +20,13 @@ const schema = {
     users: [{
         type: String,
         ref: 'User'
-    }]
+    }],
+    
 };
 
 const projectSchema = new mongoose.Schema(schema, {
-    timestamps: true
+    timestamps: true,
+    toJSON: { virtuals: true }
 });
 
 projectSchema.virtual('tasks', {

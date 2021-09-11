@@ -40,17 +40,14 @@ router.get('/projects', auth, isActive, async (req, res) => {
     try {
         if (req.query.all === 'true') {
             // // if user wants see all projects
-            // let projects = await Project.find({}).populate({
-            //     path: 'tasks'
-            // }).exec((err, projects) => {
-            //     projects = projects.map(project => {
-            //         if (!project.isAccessible(req.user._id))
-            //             project.tasks = null; // not working i.e. returns empty list, may be calling callback again rather than given value -_-
-            //         return project;
-            //     });
-            //     return res.send(projects);
-            // });
-            return res.send(await Project.find({}));
+            let projects = await Project.find({}).populate({
+                path: 'owner'
+            });
+            projects = projects.map(project => {
+                project.owner = project.owner.toJSON();
+                return project;
+            });
+            return res.send(projects);
         } else {
             const accessibleProjects = await Project.find({
                 $or: [

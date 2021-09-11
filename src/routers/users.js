@@ -97,6 +97,24 @@ router.get('/users', auth, isActive, async (req, res) => {
     }
 });
 
+// Get User
+router.get('/users/:id', auth, isActive, async (req, res) => {
+    const _id = req.params.id;
+
+    try {
+        const user = await User.findOne({
+            _id
+        });
+
+        if (!user)
+            return res.status(404).send();
+        
+        res.send(user);
+    } catch (e) {
+        res.status(500).send();
+    }
+});
+
 // Get My Profile
 router.get('/me', auth, async (req, res) => {
     res.send(req.user);

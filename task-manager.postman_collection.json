@@ -18,7 +18,7 @@
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\n    \"name\" : \"Chuzzi\",\n    \"email\" : \"chuzzi@gmail.com\",\n    \"password\" : \"Samtpobaw@21\",\n    \"age\" : 20\n}",
+									"raw": "{\n    \"name\" : \"Pratik\",\n    \"email\" : \"kalepg45@gmail.com\",\n    \"password\" : \"Samtpobaw@21\",\n    \"age\" : 24\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -57,7 +57,7 @@
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\n    \"email\" : \"steve@gmail.com\",\n    \"password\" : \"Samtpobaw@21\"\n}",
+									"raw": "{\n    \"email\" : \"chuzzi@gmail.com\",\n    \"password\" : \"Samtpobaw@21\"\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -301,14 +301,32 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{baseurl}}/users/aaaaaac/avatar",
+							"raw": "{{baseurl}}/users/aaaaaae/avatar",
 							"host": [
 								"{{baseurl}}"
 							],
 							"path": [
 								"users",
-								"aaaaaac",
+								"aaaaaae",
 								"avatar"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get User",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseurl}}/users/aaaaaae",
+							"host": [
+								"{{baseurl}}"
+							],
+							"path": [
+								"users",
+								"aaaaaae"
 							]
 						}
 					},
@@ -326,7 +344,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"_id\": \"eva\",\n    \"name\": \"Eva\",\n    \"description\": \"Eva : Virtual Assistant\"\n}",
+							"raw": "{\n    \"_id\": \"quadrant\",\n    \"name\": \"Quadrant\",\n    \"description\": \"DB Space Management\"\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -351,12 +369,18 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{baseurl}}/projects",
+							"raw": "{{baseurl}}/projects?all=true",
 							"host": [
 								"{{baseurl}}"
 							],
 							"path": [
 								"projects"
+							],
+							"query": [
+								{
+									"key": "all",
+									"value": "true"
+								}
 							]
 						}
 					},
@@ -422,13 +446,13 @@
 							}
 						},
 						"url": {
-							"raw": "{{baseurl}}/projects/surpas",
+							"raw": "{{baseurl}}/projects/aquarius",
 							"host": [
 								"{{baseurl}}"
 							],
 							"path": [
 								"projects",
-								"surpas"
+								"aquarius"
 							]
 						}
 					},
@@ -584,7 +608,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"title\" : \"First Subtask\",\n    \"description\" : \"first task\",\n    \"assignee\" : \"aaaaaaa\"\n}",
+							"raw": "{\n    \"title\" : \"Aquarious Subtask\",\n    \"description\" : \"aquarius task\",\n    \"assignee\" : \"aaaaaab\"\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -592,13 +616,13 @@
 							}
 						},
 						"url": {
-							"raw": "{{baseurl}}/projects/surpas/tasks",
+							"raw": "{{baseurl}}/projects/aquarius/tasks",
 							"host": [
 								"{{baseurl}}"
 							],
 							"path": [
 								"projects",
-								"surpas",
+								"aquarius",
 								"tasks"
 							]
 						}
@@ -668,6 +692,81 @@
 								"surpas",
 								"tasks",
 								"6135df1794e39e45b491e734"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Release",
+			"item": [
+				{
+					"name": "Create Release",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"version\": \"1.2\",\n    \"description\": \"Email Service Integration\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseurl}}/releases",
+							"host": [
+								"{{baseurl}}"
+							],
+							"path": [
+								"releases"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Releases",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseurl}}/releases",
+							"host": [
+								"{{baseurl}}"
+							],
+							"path": [
+								"releases"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Release",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"description\": \"Grid Improvements and UI Integration\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseurl}}/releases/1.1",
+							"host": [
+								"{{baseurl}}"
+							],
+							"path": [
+								"releases",
+								"1.1"
 							]
 						}
 					},
