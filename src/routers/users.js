@@ -5,6 +5,7 @@ const auth = require('../middleware/auth');
 const isActive = require('../middleware/isActive');
 const userIdGenerator = require('../util/userid-generator');
 const { avatarUpload } = require('../util/file-upload');
+const { sendSignUpEmail } = require('../service/email.service');
 
 const router = new express.Router();
 
@@ -54,6 +55,7 @@ router.post('/users', async (req, res) => {
         user._id = userIdGenerator(await User.countDocuments({}));
         await user.save();
         const token = await user.generateAuthToken();
+        sendSignUpEmail(user.name, user.email);
         res.status(201).send({user, token});
     } catch (e) {
         res.status(400).send(e);
