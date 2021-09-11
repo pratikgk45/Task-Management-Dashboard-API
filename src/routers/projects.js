@@ -45,7 +45,12 @@ router.get('/projects', auth, isActive, async (req, res) => {
             });
             projects = projects.map(project => {
                 project.owner = project.owner.toJSON();
-                return project;
+                // new obj coz there is no way to add extra properties to mongo object
+                const projectObj = {
+                    project,
+                    accessible: project.isAccessible(req.user._id)
+                };
+                return projectObj;
             });
             return res.send(projects);
         } else {

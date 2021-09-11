@@ -9,6 +9,8 @@ const router = new express.Router();
 
 // Create Access Request
 router.post('/access-requests', auth, isActive, async (req, res) => {
+    if (!req.body.accessRequestedFor)
+        req.body.accessRequestedFor = req.user._id;
     const accessRequest = new AccessRequest({
         ...req.body,
         applicant: req.user._id,
@@ -41,7 +43,7 @@ router.post('/access-requests', auth, isActive, async (req, res) => {
 // Get Received Access Requests
 router.get('/received-access-requests', auth, isActive, async (req, res) => { 
     try {
-        let requests = await AccessRequest.find({ open: true }).populate({
+        let requests = await AccessRequest.find({}).populate({
             path: 'project',
             match: {
                 owner: req.user._id
