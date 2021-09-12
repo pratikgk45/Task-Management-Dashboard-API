@@ -29,13 +29,9 @@ const schema = {
         required: true,
         ref: 'Project'
     },
-    approved: {
-        type: Boolean,
-        default: false
-    },
-    open: {
-        type: Boolean,
-        default: true
+    status: {
+        type: String,
+        default: 'Open'
     }
 };
 

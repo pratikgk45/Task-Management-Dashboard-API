@@ -14,7 +14,7 @@ router.post('/access-requests', auth, isActive, async (req, res) => {
     const accessRequest = new AccessRequest({
         ...req.body,
         applicant: req.user._id,
-        approved: false
+        status: 'Open'
     });
 
     try {
@@ -37,6 +37,26 @@ router.post('/access-requests', auth, isActive, async (req, res) => {
         res.status(201).send(accessRequest);
     } catch (e) {
         res.status(400).send(e);
+    }
+});
+
+// Get Accessible Access Requests
+router.get('/access-requests', auth, isActive, async (req, res) => { 
+    try {
+        // need an optimized way
+        const requests = await AccessRequest.find({}).populate({
+            path: 'project'
+        });
+
+        const accessibleRequests = requests.filter(request => {
+            return request.applicant === req.user._id 
+                || request.accessRequestedFor === req.user._id 
+                || request.project?.owner === req.user._id;
+        });
+
+        res.send(accessibleRequests);
+    } catch (e) {
+        res.status(500).send(e);
     }
 });
 
@@ -118,21 +138,22 @@ router.patch('/access-requests/:id', auth, isActive, async (req, res) => {
         if (request.applicant !== req.user._id && request.project.owner !== req.user._id)
             return res.status(401).send();
         
-        // applicant can update desc and open / close status and project owner can update approval and open / close status.
+        // applicant can update desc and status (only to close) and project owner can update status to any value.
         let allowedUpdates = [];
         if (req.user._id === request.applicant)
-            allowedUpdates = ['description', 'open', 'accessRequestedFor'];
+            allowedUpdates = ['description', 'status', 'accessRequestedFor'];
         else if (req.user._id === request.project.owner)
-            allowedUpdates = ['approved', 'open'];
+            allowedUpdates = ['status'];
 
         const updates = Object.keys(req.body);
         if (updates.some(update => !allowedUpdates.includes(update)))
             return res.status(403).send();
 
-        Object.keys(req.body).forEach(update => request[update] = req.body[update]);
-        const isApprovalChanged = request.isModified('approved');
+        Object.keys(req.body).forEach(update => {
+            if (update !== 'status')
+                request[update] = req.body[update];
+        });
         const isRequestorChanged = request.isModified('accessRequestedFor');
-        await request.save();
 
         if (isRequestorChanged) {
             const requestor = await User.findOne({
@@ -143,9 +164,34 @@ router.patch('/access-requests/:id', auth, isActive, async (req, res) => {
                 return res.status(404).send();
         }
 
-        if (isApprovalChanged && request.approved)
-            await request.project.updateUsers('add', request.accessRequestedFor);
+        // Possible Transitions :
+        // Open	Closed		both
+        // Open	Approved	owner
+        // Open	Rejected	owner
+        // Closed	Open	both
+        const possibleStatusVals = ['Open', 'Closed', 'Approved', 'Rejected'];
+        if (Object.keys(req.body).includes('status') && request.status !== req.body.status) {
+            const currentStatus = request.status;
+            const updatedStatus = req.body.status;
+            const isApplicant = (req.user._id === request.applicant);
+            if (!possibleStatusVals.includes(updatedStatus))
+                return res.status(400).send();
+            
+            if (currentStatus === 'Approved' || currentStatus === 'Rejected')
+                return res.status(403).send();
+            if (currentStatus === 'Closed') {
+                if (updatedStatus !== 'Open')
+                    return res.status(400).send();
+            } else {
+                if (updatedStatus !== 'Closed' && isApplicant)
+                    return res.status(403).send();
+            }
+            request.status = updatedStatus;
+            if (updatedStatus === 'Approved')
+                await request.project.updateUsers('add', request.accessRequestedFor);
+        }
 
+        await request.save();
         res.send(request);
     } catch (e) {
         res.status(500).send(e);
