@@ -46,11 +46,13 @@ router.get('/access-requests', auth, isActive, async (req, res) => {
         // need an optimized way
         const requests = await AccessRequest.find({}).populate({
             path: 'project'
+        }).populate({
+            path: 'accessRequestedFor'
         });
 
         const accessibleRequests = requests.filter(request => {
             return request.applicant === req.user._id 
-                || request.accessRequestedFor === req.user._id 
+                || request.accessRequestedFor._id === req.user._id 
                 || request.project?.owner === req.user._id;
         });
 
