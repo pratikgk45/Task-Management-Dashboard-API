@@ -91,7 +91,9 @@ router.get('/users', auth, isActive, async (req, res) => {
     }
 
     try {
-        res.send(await User.find(query));
+        res.send(await User.find(query, null, {
+            limit: 10 // only first 10 entries
+        }));
     } catch (e) {
         res.status(500).send();
     }
