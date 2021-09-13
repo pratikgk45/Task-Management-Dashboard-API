@@ -19,7 +19,7 @@ const auth = async (req, res, next) => {
         next();
     } catch (e) {
         if (e instanceof jwt.TokenExpiredError) {
-            return res.status(401).send({ message : 'Session Expired, Please Login Again !'});
+            return res.status(408).send({ message : 'Session Expired, Please Login Again !'});
         }
         res.status(401).send({ message : 'Authenticate first.'});
     }

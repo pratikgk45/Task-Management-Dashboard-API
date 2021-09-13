@@ -2,7 +2,8 @@ const mongoose = require('mongoose');
 
 const schema = {
     _id: {
-        type: String
+        type: String,
+        trim: true
     },
     name: {
         type: String,
@@ -21,7 +22,6 @@ const schema = {
         type: String,
         ref: 'User'
     }],
-    
 };
 
 const projectSchema = new mongoose.Schema(schema, {
