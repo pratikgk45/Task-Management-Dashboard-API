@@ -92,8 +92,34 @@ router.get('/users', auth, isActive, async (req, res) => {
 
     try {
         res.send(await User.find(query, null, {
-            limit: 10 // only first 10 entries
-        }));
+            limit: +req.query.limit || 10 // only first 10 entries
+        }).select('_id name'));
+    } catch (e) {
+        res.status(500).send();
+    }
+});
+
+// Get Users by ID List
+router.post('/usersByIdList', auth, async (req, res) => {
+    if (!Array.isArray(req.body.ids))
+        return res.status(400).send();
+        
+    if (!req.body.ids.length)
+        return res.send([]);
+
+    let query = {
+        _id: {
+            $in: req.body.ids
+        }
+    };
+
+    if (req.query.active === 'true' || req.query.active === 'false') {
+        query.active = req.query.active;
+    }
+
+    try {
+        const users = await User.find(query).select('_id name');
+        res.send(users);
     } catch (e) {
         res.status(500).send();
     }
