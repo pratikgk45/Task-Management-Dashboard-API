@@ -2,6 +2,7 @@ const express = require('express');
 const Release = require("../models/Release");
 const auth = require('../middleware/auth');
 const isActive = require('../middleware/isActive');
+const { sendReleaseNotification } = require('../service/email.service');
 
 const router = new express.Router();
 
@@ -16,6 +17,7 @@ router.post('/releases', auth, isActive, async (req, res) => {
             });
         
         await release.save();
+        sendReleaseNotification(release);
         res.status(201).send(release);
     } catch (e) {
         res.status(500).send(e);

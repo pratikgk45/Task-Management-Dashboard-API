@@ -67,7 +67,7 @@ router.get('/users', auth, isActive, async (req, res) => {
     let query = {};
 
     if (req.query.active === 'true' || req.query.active === 'false') {
-        query.active = req.query.active;
+        query.active = req.query.active === 'true';
     }
 
     if (req.query.search) {
@@ -114,7 +114,7 @@ router.post('/usersByIdList', auth, async (req, res) => {
     };
 
     if (req.query.active === 'true' || req.query.active === 'false') {
-        query.active = req.query.active;
+        query.active = req.query.active === 'true';
     }
 
     try {
@@ -151,7 +151,11 @@ router.get('/me', auth, async (req, res) => {
 // Update My Profile
 router.patch('/me', auth, async (req, res) => {
     try {
-        Object.keys(req.body).forEach(update => req.user[update] = req.body[update]);
+        Object.keys(req.body).forEach(update => {
+            if (update === '_id')
+                throw new Error();
+            req.user[update] = req.body[update];
+        });
         req.user.admin = false; // no update over admin is allowed
         await req.user.save();
 
@@ -186,7 +190,7 @@ router.post('/deactivate', auth, isActive, async (req, res) => {
 });
 
 // Get User Avatar
-router.get('/users/:id/avatar', async (req, res) => {
+router.get('/users/:id/avatar', auth, async (req, res) => {
     try {
         const user = await User.findById(req.params.id);
 
