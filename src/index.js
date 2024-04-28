@@ -11,7 +11,7 @@ const app = express();
 const port = process.env.PORT;
 
 app.use(cors({
-    origin: ['http://localhost:8000', 'http://127.0.0.1:8000', 'https://org-task-manager-app.herokuapp.com']
+    origin: ['http://localhost:8000', 'http://127.0.0.1:8000', process.env.TASK_MANAGER_PROD_APP]
 }));
 
 app.use(express.json());
